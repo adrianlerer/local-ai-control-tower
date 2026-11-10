@@ -1,14 +1,14 @@
-# MCP: propuesta de una interfaz acotada
+# MCP: a narrowly scoped interface proposal
 
-**Estado: diseño, no servidor implementado ni publicado.**
+**Status: design only. No MCP server has been implemented or published.**
 
-MCP permite exponer herramientas a un asistente. Una primera integración de esta torre debería ofrecer únicamente:
+The Model Context Protocol (MCP) provides a way for an assistant to access tools. An initial integration for this tower should expose only:
 
-- `observe_capacity`: devolver bytes, momento y método, sin rutas personales, procesos o documentos.
-- `explain_admission`: calcular un escenario a partir de una observación explícita, una reserva y una demanda declarada; devolver motivo y caducidad, nunca un permiso de ejecución.
+- `observe_capacity`: return bytes, observation time and method, without personal paths, process details or documents.
+- `explain_admission`: evaluate an explicit observation, reserve and declared demand; return the reason and freshness limit, never execution permission.
 
-La interfaz debería comenzar por transporte local stdio y validación estricta. No necesita credenciales ni un endpoint público. Los metadatos `readOnlyHint`, `destructiveHint` y `openWorldHint` describen el alcance para el cliente; no reemplazan los controles del servidor. Véase la [explicación oficial de las anotaciones](https://blog.modelcontextprotocol.io/posts/2026-03-16-tool-annotations/).
+Start with local stdio transport and strict input validation. This design needs neither credentials nor a public endpoint. The `readOnlyHint`, `destructiveHint` and `openWorldHint` annotations describe scope to a client; they do not replace server-side controls. See the [official explanation of tool annotations](https://blog.modelcontextprotocol.io/posts/2026-03-16-tool-annotations/).
 
-Un servidor que ejecute inferencias requiere otro contrato: identidad del operador, exclusión verificable, límites de tiempo, cancelación de procesos descendientes, presupuesto, restauración y pruebas con el runtime concreto. No conviene conceder esa autoridad a partir de una respuesta favorable de `explain_admission`.
+A server that executes inference needs a separate contract: operator identity, verifiable exclusion, time limits, cancellation of descendant processes, budget, restoration and tests against the actual runtime. A favorable `explain_admission` response must not confer that authority.
 
-Antes de implementar: fijar la versión de protocolo soportada y el SDK oficial, probar inicialización, esquemas inválidos, errores, salida incompleta y desconexión; revisar la [especificación oficial](https://github.com/modelcontextprotocol/modelcontextprotocol/tree/main/docs/specification). Este documento no acredita compatibilidad con clientes MCP.
+Before implementation, pin the supported protocol version and official SDK. Test initialization, invalid schemas, errors, incomplete output and disconnection against the [official specification](https://github.com/modelcontextprotocol/modelcontextprotocol/tree/main/docs/specification). This proposal does not establish compatibility with MCP clients.
